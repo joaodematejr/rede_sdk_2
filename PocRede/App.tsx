@@ -21,41 +21,40 @@ import imgBase64 from './Base64';
 
 function App() {
   const {RedeModule} = NativeModules;
-  //const {DEBITO} = Rede;
+  const {DEBITO} = RedeModule;
 
   function showMsg() {
     RedeModule.show('ola mundo' as String);
-    //console.log('teste', DEBITO);
   }
 
   function handlePayment() {
-    //Rede.payment(DEBITO as String, (120 * 100) as Number, 1 as Number)
-    //  .then((response: any) => {
-    //    console.log('22', response);
-    //  })
-    //  .catch((error: any) => {
-    //    console.log('25', error);
-    //  });
+    RedeModule.payment(DEBITO as String, (120 * 100) as Number, 1 as Number)
+      .then((response: any) => {
+        console.log('22', response);
+      })
+      .catch((error: any) => {
+        console.log('25', error);
+      });
   }
 
   function handleReversal() {
-    //Rede.reversal()
-    //  .then((response: any) => {
-    //    console.log('22', response);
-    //  })
-    //  .catch((error: any) => {
-    //    console.log('25', error);
-    //  });
+    RedeModule.reversal()
+      .then((response: any) => {
+        console.log('22', response);
+      })
+      .catch((error: any) => {
+        console.log('25', error);
+      });
   }
 
   function handleReprint() {
-    //Rede.reprint()
-    //  .then((response: any) => {
-    //    console.log('22', response);
-    //  })
-    //  .catch((error: any) => {
-    //    console.log('25', error);
-    //  });
+    RedeModule.reprint()
+      .then((response: any) => {
+        console.log('22', response);
+      })
+      .catch((error: any) => {
+        console.log('25', error);
+      });
   }
 
   function generateImage() {
@@ -66,13 +65,13 @@ function App() {
   }
 
   function handlePrint() {
-    //Rede.print(imgBase64 as String)
-    //  .then((response: any) => {
-    //    console.log('22', response);
-    //  })
-    //  .catch((error: any) => {
-    //    console.log('25', error);
-    //  });
+    RedeModule.print(imgBase64 as String)
+      .then((response: any) => {
+        console.log('22', response);
+      })
+      .catch((error: any) => {
+        console.log('25', error);
+      });
   }
 
   function handleStatusPrint() {
