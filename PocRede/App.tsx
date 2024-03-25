@@ -6,112 +6,144 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
+  ScrollView,
   View,
+  TouchableOpacity,
+  Text,
+  NativeModules,
+  Image,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import RNFS from 'react-native-fs';
+import imgBase64 from './Base64';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+function App() {
+  const {RedeModule} = NativeModules;
+  //const {DEBITO} = Rede;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  function showMsg() {
+    RedeModule.show('ola mundo' as String);
+    //console.log('teste', DEBITO);
+  }
+
+  function handlePayment() {
+    //Rede.payment(DEBITO as String, (120 * 100) as Number, 1 as Number)
+    //  .then((response: any) => {
+    //    console.log('22', response);
+    //  })
+    //  .catch((error: any) => {
+    //    console.log('25', error);
+    //  });
+  }
+
+  function handleReversal() {
+    //Rede.reversal()
+    //  .then((response: any) => {
+    //    console.log('22', response);
+    //  })
+    //  .catch((error: any) => {
+    //    console.log('25', error);
+    //  });
+  }
+
+  function handleReprint() {
+    //Rede.reprint()
+    //  .then((response: any) => {
+    //    console.log('22', response);
+    //  })
+    //  .catch((error: any) => {
+    //    console.log('25', error);
+    //  });
+  }
+
+  function generateImage() {
+    let name = new Date().getTime();
+    let count = 1;
+    const imagePath = `${RNFS.DownloadDirectoryPath}/${name}${count}.jpg`;
+    RNFS.writeFile(imagePath, imgBase64, 'base64').then(async function () {});
+  }
+
+  function handlePrint() {
+    //Rede.print(imgBase64 as String)
+    //  .then((response: any) => {
+    //    console.log('22', response);
+    //  })
+    //  .catch((error: any) => {
+    //    console.log('25', error);
+    //  });
+  }
+
+  function handleStatusPrint() {
+    //Rede.getStatusPrint()
+    //  .then((response: any) => {
+    //    console.log('22', response);
+    //  })
+    //  .catch((error: any) => {
+    //    console.log('25', error);
+    //  });
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    <ScrollView style={styles.scrollView}>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={() => showMsg()}>
+          <Text>Mostrar Mensagem</Text>
+        </TouchableOpacity>
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+        <TouchableOpacity style={styles.button} onPress={() => handlePayment()}>
+          <Text>Pagamento</Text>
+        </TouchableOpacity>
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleReversal()}>
+          <Text>Reembolso</Text>
+        </TouchableOpacity>
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        <TouchableOpacity style={styles.button} onPress={() => handleReprint()}>
+          <Text>Reimpressão</Text>
+        </TouchableOpacity>
+
+        <Image
+          style={{width: 500, height: 500, resizeMode: 'contain'}}
+          source={{
+            uri: `data:image/jpg;base64,${imgBase64}`,
+          }}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={() => generateImage()}>
+          <Text>Gerar Imagem</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleStatusPrint()}>
+          <Text>Status Impressora</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => handlePrint()}>
+          <Text>Imprimir Imagem</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 15,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  scrollView: {
+    marginHorizontal: 20,
   },
 });
 
